@@ -59,7 +59,7 @@ tremperControllers.controller('TrempistDetailsController', ['$scope', '$http', '
     };
 }]);
 
-tremperControllers.controller('landingPageController', ['$scope', '$http', '$location', 'Data' ,'State', '$interval' ,function ($scope, $http, $location,State ,Data,$interval) {
+tremperControllers.controller('landingPageController', ['$scope', '$http', '$location', 'Data' ,'State', '$interval' ,function ($scope, $http, $location,Data,State,$interval) {
     var decrement = function(){
         $scope.landingPageOff = false;
     }
@@ -110,7 +110,7 @@ tremperControllers.controller('UserDetailsController', ['$scope', '$http', '$loc
 
 }]);
 
-tremperControllers.controller('TremperController', ['$scope', '$http', '$routeParams', 'Data','State', function ($scope, $http,State ,$routeParams, Data) {
+tremperControllers.controller('TremperController', ['$scope', '$http', '$routeParams', 'Data','State', function ($scope, $http ,$routeParams, Data,State) {
 
 
 
@@ -121,7 +121,7 @@ tremperControllers.controller('TremperController', ['$scope', '$http', '$routePa
         $scope.whichItem = $routeParams.itemId;
     });
     
-    $scope.TremerSearchActive = State.TremperSearchActive;
+    $scope.TremperSearchActive = State.TremperSearchActive;
 
     $scope.updateUser = function (user) {
         localStorage.setItem("userName", $scope.myTremper.name);
@@ -190,7 +190,7 @@ tremperControllers.controller('TremperController', ['$scope', '$http', '$routePa
     };
 }]);
 
-tremperControllers.controller('TrempistController', ['$scope', '$http', '$routeParams','State', 'Data' ,function ($scope, $http, State, $routeParams, Data) {
+tremperControllers.controller('TrempistController', ['$scope', '$http', '$routeParams','State', 'Data' ,function ($scope, $http, $routeParams ,State, Data) {
 
     $http.get('/getTrempers').success(function(data) {
         $scope.trempers = data;
