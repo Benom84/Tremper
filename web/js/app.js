@@ -50,4 +50,9 @@ myApp.factory('Data', function() {
         return myApp.user;
     });
 
+myApp.factory('State', function(){
+    return {TremperSearchActive : '', TrempistSearchActive : '',landingPageActive : true};
+
+});
+
 

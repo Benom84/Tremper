@@ -3,11 +3,11 @@
  */
 var tremperControllers = angular.module('tremperControllers', ['ngAnimate']);
 
-tremperControllers.controller('TremperDetailsController', ['$scope', '$http', '$routeParams', 'Data', '$location' ,function ($scope, $http, $routeParams, Data, $location) {
+tremperControllers.controller('TremperDetailsController', ['$scope', '$http', '$routeParams', 'Data','State', '$location' ,function ($scope, $http, $routeParams, Data, State, $location) {
 
     $scope.user = Data;
     $scope.isDeleteButtonVisible = false;
-
+    State.TrempistSearchActive = true;
 
     $http.get('/getTrempers').success(function(data) {
         $scope.trempers = data;
@@ -30,11 +30,11 @@ tremperControllers.controller('TremperDetailsController', ['$scope', '$http', '$
     };
 }]);
 
-tremperControllers.controller('TrempistDetailsController', ['$scope', '$http', '$routeParams', 'Data', '$location', function ($scope, $http, $routeParams, Data, $location) {
+tremperControllers.controller('TrempistDetailsController', ['$scope', '$http', '$routeParams', 'Data','State', '$location', function ($scope, $http, $routeParams, Data,State, $location) {
 
     $scope.user = Data;
     $scope.isDeleteButtonVisible = false;
-
+    State.TremperSearchActive = true;
     $http.get('/getTrempists').success(function(data) {
         $scope.trempists = data;
         $scope.whichItem = $routeParams.itemId;
@@ -59,13 +59,16 @@ tremperControllers.controller('TrempistDetailsController', ['$scope', '$http', '
     };
 }]);
 
-tremperControllers.controller('landingPageController', ['$scope', '$http', '$location', 'Data' , '$interval' ,function ($scope, $http, $location, Data,$interval) {
+tremperControllers.controller('landingPageController', ['$scope', '$http', '$location', 'Data' ,'State', '$interval' ,function ($scope, $http, $location,State ,Data,$interval) {
     var decrement = function(){
         $scope.landingPageOff = false;
     }
+    if(State.landingPageActive){ 
+       $scope.landingPageOff = true;
+       $interval(decrement,2500,1);
+    }
 
-    $scope.landingPageOff = true;
-    $interval(decrement,2500,1);
+ 
 
 
 
@@ -107,7 +110,7 @@ tremperControllers.controller('UserDetailsController', ['$scope', '$http', '$loc
 
 }]);
 
-tremperControllers.controller('TremperController', ['$scope', '$http', '$routeParams', 'Data', function ($scope, $http, $routeParams, Data) {
+tremperControllers.controller('TremperController', ['$scope', '$http', '$routeParams', 'Data','State', function ($scope, $http,State ,$routeParams, Data) {
 
 
 
@@ -117,7 +120,8 @@ tremperControllers.controller('TremperController', ['$scope', '$http', '$routePa
 
         $scope.whichItem = $routeParams.itemId;
     });
-
+    
+    $scope.TremerSearchActive = State.TremperSearchActive;
 
     $scope.updateUser = function (user) {
         localStorage.setItem("userName", $scope.myTremper.name);
@@ -156,8 +160,9 @@ tremperControllers.controller('TremperController', ['$scope', '$http', '$routePa
 
 
     $scope.TremperActive = false;
-    $scope.TremperSearchActive = false;
+   
     $scope.TremperUserUpdate = false;
+    State.landingPageActive = false;
 
     $scope.trempDataEntered = function() {
         return !(($scope.myTremper.from != '') && ($scope.myTremper.to != ''));
@@ -185,7 +190,7 @@ tremperControllers.controller('TremperController', ['$scope', '$http', '$routePa
     };
 }]);
 
-tremperControllers.controller('TrempistController', ['$scope', '$http', '$routeParams', 'Data' ,function ($scope, $http, $routeParams, Data) {
+tremperControllers.controller('TrempistController', ['$scope', '$http', '$routeParams','State', 'Data' ,function ($scope, $http, State, $routeParams, Data) {
 
     $http.get('/getTrempers').success(function(data) {
         $scope.trempers = data;
@@ -230,8 +235,9 @@ tremperControllers.controller('TrempistController', ['$scope', '$http', '$routeP
     };
 
     $scope.TrempistActive = false;
-    $scope.TrempistSearchActive = false;
+    $scope.TrempistSearchActive = State.TrempistSearchActive;
     $scope.TrempistUserUpdate = false;
+    State.landingPageActive = false;
 
     $scope.trempDataEntered = function() {
         return !(($scope.myTrempist.from != '') && ($scope.myTrempist.to != ''));
